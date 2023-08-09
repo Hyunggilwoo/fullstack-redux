@@ -12,30 +12,30 @@ const anecdotesAtStart = [
 const getId = () => 
   Number((100000 * Math.random()).toFixed(0))
 
-export const addAnecdote = (content) => {
+// export const addAnecdote = (content) => {
 
-    return {
-      type: 'NEW_NOTE',
-      payload: {
-        content,
-        id: getId(),
-        votes: 0
-      }
-    }
-}
+//     return {
+//       type: 'NEW_NOTE',
+//       payload: {
+//         content,
+//         id: getId(),
+//         votes: 0
+//       }
+//     }
+// }
 
-/**
- * 
- * @param {*} id 
- * @returns 
- */
-export const increaseVote = (id) => {
-  return {
-    type: 'INCREASE_VOTE',
-    payload: { id }
-  }
+// /**
+//  * 
+//  * @param {*} id 
+//  * @returns 
+//  */
+// export const increaseVote = (id) => {
+//   return {
+//     type: 'INCREASE_VOTE',
+//     payload: { id }
+//   }
   
-}
+// }
 
 const asObject = (anecdote) => {
   return {
@@ -45,29 +45,54 @@ const asObject = (anecdote) => {
   }
 }
 
-const initialState = anecdotesAtStart.map(asObject)
+const anecdoteSlice = createSlice({
+  name: 'anecdotes',
+  initialState: anecdotesAtStart.map(asObject),
+  reducers: {
 
-const anecdoteReducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
+    addAnecdote(state, action) {
+      const content = action.payload;
+      state.push({
+        content,
+        id: getId(),
+        votes: 0,
+      })
+    },
+    increaseVote(state, action) {
+      const id = action.payload;
 
-  switch (action.type) {
-      
-      case 'INCREASE_VOTE':
-          const id = action.payload.id;
-          return state.map(anecdote => 
-              anecdote.id === id
-                ? { ...anecdote, votes: anecdote.votes + 1 } 
-                : anecdote
+      return state.map(anecdote => 
+          anecdote.id === id
+          ? { ...anecdote, votes: anecdote.votes + 1} 
+          : anecdote
           );
+    }
+  },
+})
+
+// const initialState = anecdotesAtStart.map(asObject)
+
+// const anecdoteReducer = (state = initialState, action) => {
+//   console.log('state now: ', state)
+//   console.log('action', action)
+
+//   switch (action.type) {
       
-      case 'NEW_NOTE':
-          return state.concat(action.payload)
+//       case 'INCREASE_VOTE':
+//           const id = action.payload.id;
+//           return state.map(anecdote => 
+//               anecdote.id === id
+//                 ? { ...anecdote, votes: anecdote.votes + 1 } 
+//                 : anecdote
+//           );
+      
+//       case 'NEW_NOTE':
+//           return state.concat(action.payload)
 
-      default:
-        return state;
-  }
-};
+//       default:
+//         return state;
+//   }
+// };
 
-
-export default anecdoteReducer
+export const { addAnecdote, increaseVote } = anecdoteSlice.actions;
+export default anecdoteSlice.reducer;
