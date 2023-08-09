@@ -3,6 +3,7 @@ import {increaseVote } from './reducers/anecdoteReducer'
 import { createStore } from 'redux'
 import AnecdoteList from './components/AnecdoteList'
 import NewAnecdote from './components/NewAnecdote'
+import Filter from './components/Filter'
 
 /**
  * Anecdote is defined as:
@@ -18,6 +19,7 @@ const App = () => {
 
   return (
     <div>
+      <Filter />
       <AnecdoteList />
 
       <NewAnecdote />
