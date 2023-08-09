@@ -1,6 +1,11 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { addAnecdote } from '../reducers/anecdoteReducer'
+import { createNotification } from "../reducers/notificationReducer";
 
+/**
+ * When a new anecdote is added, notification appears
+ * @returns 
+ */
 const NewAnecdote = () => {
     const dispatch = useDispatch();
 
