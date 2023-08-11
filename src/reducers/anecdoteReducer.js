@@ -20,7 +20,7 @@ const anecdoteSlice = createSlice({
     },
     setAnecdotes(state, action) {
       return action.payload
-    }
+    },
   },
 })
 
@@ -45,5 +45,25 @@ export const addAnecdote = content => {
     const newAnecdote = await anecdoteService.createNew(content)
     dispatch(appendAnecdote(newAnecdote))
   }
+}
+
+/**
+ * Uses anecdote services's increaseVote 
+ * @requires increaseVote to process anecdote's id to increase vote for a specific anecdote.
+ */
+export const increaseVoteAsync = id => {
+  return async (dispatch, getState) => {
+
+    // get current votes for anecdote with given ID
+    const anecdote = getState().anecdotes.find(a => a.id === id);
+    const updatedVote = anecdote.votes + 1
+
+    // update votes in backend @returns anecdote and updatedVote
+    const updatedAnecdote = await anecdoteService.changeVote(anecdote, updatedVote)
+
+    // update votes in frontend
+    dispatch(increaseVote(id));
+  }
+
 }
 export default anecdoteSlice.reducer;

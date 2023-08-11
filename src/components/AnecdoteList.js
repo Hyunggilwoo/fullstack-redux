@@ -1,11 +1,18 @@
 import { useDispatch, useSelector } from "react-redux"
-import { increaseVote } from '../reducers/anecdoteReducer'
+import { increaseVoteAsync } from '../reducers/anecdoteReducer'
 import { showNotificationWithTimeout} from "../reducers/notificationReducer"
 
 /**
  * Typing a specific string will filter specific values from the entire list of anecdotes.
  * AnecdoteList appears as a master component that will be modified for each new component that I want to interact.
+ * Currently:
  * 
+ * AnecdoteList <
+ *               |_NewAnecdote
+ *               |
+ *               |_Filter
+ *               |
+ *               |_Notification
  */
 
 /**
@@ -36,7 +43,7 @@ const AnecdoteList = () => {
 
                 // Reorder the vote by the increasing number
                 const handleIncreaseVote = () => {
-                    dispatch(increaseVote(anecdote.id))
+                    dispatch(increaseVoteAsync(anecdote.id))
                     // Notification logic will be rendered here
                     dispatch(showNotificationWithTimeout(`You voted '${anecdote.content}'`, 5000));
 

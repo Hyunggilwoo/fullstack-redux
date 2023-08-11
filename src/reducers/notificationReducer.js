@@ -31,9 +31,6 @@ export const showNotificationWithTimeout = (message, duration) => {
         // dispatch notification
       dispatch(createNotification(message));
 
-      // clear existing timer
-
-
       // set a new timer
       timer = setTimeout(() => {
         dispatch(clearNotification());
