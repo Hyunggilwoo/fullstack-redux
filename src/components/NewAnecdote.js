@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { addAnecdote } from '../reducers/anecdoteReducer'
-import { createNotification } from "../reducers/notificationReducer";
+import anecdoteService from '../services/anecdotes'
 
 /**
  * When a new anecdote is added, notification appears
@@ -12,14 +12,17 @@ const NewAnecdote = () => {
     /**
      * Sending anecdote component to reducer
      * AddAnecdote requires content to be a parameter.
+     * Asynchronously adding content of anecdote.
      */
-    const handleAddAnecdote = (event) => {
+    const handleAddAnecdote = async (event) => {
         event.preventDefault() // prevent page from reloading
         const content = event.target.anecdote.value 
-
-        dispatch(addAnecdote(content))
-        console.log(content)
-        event.target.anecdote.value = '' // initial value 
+        event.target.anecdote.value = ''
+        
+        const newAnecdote = await anecdoteService.createNew(content)
+        dispatch(addAnecdote(newAnecdote))
+        // console.log(newAnecdote)
+ // initial value 
     }
 
     return (
