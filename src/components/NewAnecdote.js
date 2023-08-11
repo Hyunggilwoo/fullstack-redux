@@ -13,14 +13,14 @@ const NewAnecdote = () => {
      * Sending anecdote component to reducer
      * AddAnecdote requires content to be a parameter.
      * Asynchronously adding content of anecdote.
+     * @param event.target.{name}.value must equal input's name attribute
      */
     const handleAddAnecdote = async (event) => {
         event.preventDefault() // prevent page from reloading
         const content = event.target.anecdote.value 
         event.target.anecdote.value = ''
         
-        const newAnecdote = await anecdoteService.createNew(content)
-        dispatch(addAnecdote(newAnecdote))
+        dispatch(addAnecdote(content))
         // console.log(newAnecdote)
  // initial value 
     }

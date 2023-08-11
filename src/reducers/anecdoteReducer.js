@@ -6,14 +6,6 @@ const anecdoteSlice = createSlice({
   initialState: [],
   reducers: {
 
-    /**
-     * Automatically generates id
-     * @param {*} state 
-     * @param {*} action 
-     */
-    addAnecdote(state, action) {
-      state.push(action.payload)
-    },
     increaseVote(state, action) {
       const id = action.payload;
 
@@ -24,7 +16,7 @@ const anecdoteSlice = createSlice({
           );
     },
     appendAnecdote(state, action) {
-      state.push(action.payload)
+      state.push(action.payload) // why use state.push instead of return action.payload
     },
     setAnecdotes(state, action) {
       return action.payload
@@ -32,7 +24,7 @@ const anecdoteSlice = createSlice({
   },
 })
 
-export const { addAnecdote, increaseVote, appendAnecdote, setAnecdotes } = anecdoteSlice.actions;
+export const { increaseVote, appendAnecdote, setAnecdotes } = anecdoteSlice.actions;
 
 /**
  * When a user accesses the webpage, initializes anecdotes using a thunk.
@@ -42,6 +34,16 @@ export const initializeAnecdotes = () => {
   return async dispatch => {
     const anecdotes = await anecdoteService.getAll()
     dispatch(setAnecdotes(anecdotes))
+  }
+}
+
+/**
+ * Creating note is done asynchronously
+ */
+export const addAnecdote = content => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch(appendAnecdote(newAnecdote))
   }
 }
 export default anecdoteSlice.reducer;

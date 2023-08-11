@@ -1,12 +1,10 @@
-import { createStore } from 'redux'
 import AnecdoteList from './components/AnecdoteList'
 import NewAnecdote from './components/NewAnecdote'
 import Filter from './components/Filter'
 import Notification from './components/Notification'
-
+import { initializeAnecdotes } from './reducers/anecdoteReducer'
 import anecdoteService from './services/anecdotes'
 
-import { initializeAnecdotes, setAnecdotes } from './reducers/anecdoteReducer'
 import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
 
