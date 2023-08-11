@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { increaseVote } from '../reducers/anecdoteReducer'
 import { showNotificationWithTimeout} from "../reducers/notificationReducer"
+
 /**
  * Typing a specific string will filter specific values from the entire list of anecdotes.
  * AnecdoteList appears as a master component that will be modified for each new component that I want to interact.

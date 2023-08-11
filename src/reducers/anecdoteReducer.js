@@ -1,29 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
-
-const getId = () => 
-  Number((100000 * Math.random()).toFixed(0))
-
-/**
- * Unnecessary when object is already in JSON format
- * @param {*} anecdote 
- * @returns 
- */
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
+import anecdoteService from '../services/anecdotes'
 
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
@@ -57,4 +33,15 @@ const anecdoteSlice = createSlice({
 })
 
 export const { addAnecdote, increaseVote, appendAnecdote, setAnecdotes } = anecdoteSlice.actions;
+
+/**
+ * When a user accesses the webpage, initializes anecdotes using a thunk.
+ * @returns 
+ */
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch(setAnecdotes(anecdotes))
+  }
+}
 export default anecdoteSlice.reducer;

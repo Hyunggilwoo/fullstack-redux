@@ -1,10 +1,12 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import anecdoteReducer, { setAnecdotes } from './reducers/anecdoteReducer'
 import filterReducer from './reducers/filterReducer'
 import notificationReducer from './reducers/notificationReducer';
-import anecdoteService from './services/anecdotes'
 import thunk from 'redux-thunk'
 /**
+ * Store is the middleman for all of the reducers in the code.
+ * Ideally, store should not handle a function of each reducer here.
+ * 
  * Handles the storing of states in redux for multiple reducers here. 
  * It is helpful to think that store is configuring a reducer that has a key ( e.g. notification) and value (e.g. reducer for the key)
  */
@@ -14,12 +16,6 @@ const store = configureStore({
       filter: filterReducer,
       notification: notificationReducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk)
 });
-
-/*********************** Handles Anecdote Reducer ********************/
-anecdoteService.getAll().then(anecdotes => 
-    store.dispatch(setAnecdotes(anecdotes))
-)
 
 export default store;
